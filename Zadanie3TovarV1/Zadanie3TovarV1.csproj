@@ -9,12 +9,64 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="icon.ico" />
+    <None Remove="Image\D036H2.jpg" />
+    <None Remove="Image\D548T5.jpg" />
+    <None Remove="Image\D644G3.jpg" />
+    <None Remove="Image\F735F5.jpg" />
+    <None Remove="Image\F835F5.jpg" />
+    <None Remove="Image\F836E5.jpg" />
+    <None Remove="Image\H482Y6.jpg" />
+    <None Remove="Image\N835D4.jpg" />
+    <None Remove="Image\N835F5.jpg" />
+    <None Remove="Image\picture.png" />
+    <None Remove="Image\А112Т4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.24" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.24" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.24">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+    <EmbeddedResource Include="Image\D036H2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Resource Include="Image\D548T5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\D644G3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\F735F5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\F835F5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\F836E5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\H482Y6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\N835D4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\N835F5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\picture.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Image\А112Т4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
