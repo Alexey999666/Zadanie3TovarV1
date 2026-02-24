@@ -58,6 +58,7 @@ namespace Zadanie3TovarV1
         {
             try
             {
+                _db.ChangeTracker.Clear();
                 _allProducts = _db.Products.ToList();
                 ApplyFilters();
             }

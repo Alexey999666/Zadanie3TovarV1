@@ -13,15 +13,24 @@ namespace Zadanie3TovarV1.ModelsDB
         {
             get
             {
-                if (string.IsNullOrEmpty(ProductPhoto))
+                if(this.ProductPhoto == null)
+                {
                     return "Image\\picture.png";
-
-                // Проверяем существует ли файл
-                string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "Image", ProductPhoto);
-                if (File.Exists(fullPath))
-                    return $"Image\\{ProductPhoto}";
+                }
                 else
-                    return "Image\\picture.png";
+                {
+                    string namePhoto = Directory.GetCurrentDirectory() + "\\image\\" + ProductPhoto;
+                    return namePhoto;
+                }
+                //if (string.IsNullOrEmpty(ProductPhoto))
+                //    return "Image\\picture.png";
+
+                //// Проверяем существует ли файл
+                //string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "Image", ProductPhoto);
+                //if (File.Exists(fullPath))
+                //    return $"Image\\{ProductPhoto}";
+                //else
+                //    return "Image\\picture.png";
             }
         }
     }

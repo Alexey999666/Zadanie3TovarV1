@@ -8,7 +8,7 @@
     <Window.Resources>
         <Style TargetType="{x:Type ListViewItem}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ProductStatus}" Value="нет в наличии">
+                <DataTrigger Binding="{Binding ProductStatus}" Value="Нет в наличии">
                     <Setter Property="Background" Value="Gray"/>
                 </DataTrigger>
             </Style.Triggers>

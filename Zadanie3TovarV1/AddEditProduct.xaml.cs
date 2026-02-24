@@ -1,10 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using Zadanie3TovarV1.ModelsDB;
 
 namespace Zadanie3TovarV1
@@ -13,6 +16,7 @@ namespace Zadanie3TovarV1
     {
         private Trade1Context _db;
         private Product _currentProduct;
+        OpenFileDialog open = new OpenFileDialog();
 
         public AddEditProduct()
         {
@@ -29,25 +33,20 @@ namespace Zadanie3TovarV1
                 this.Title = "Добавление товара";
                 btnSave.Content = "Добавить";
 
-                // Генерация нового артикула
-                var lastProduct = _db.Products.OrderBy(p => p.ProductArticleNumber).LastOrDefault();
-                if (lastProduct != null)
+                // Генерация нового артикула +1 от максимального существующего
+                var allProducts = _db.Products.ToList();
+                int maxNumber = 0;
+
+                foreach (var p in allProducts)
                 {
-                    int lastNumber = 0;
-                    if (int.TryParse(lastProduct.ProductArticleNumber, out lastNumber))
+                    if (int.TryParse(p.ProductArticleNumber, out int num))
                     {
-                        txtArticleNumber.Text = (lastNumber + 1).ToString();
+                        if (num > maxNumber)
+                            maxNumber = num;
                     }
-                    else
-                    {
-                        txtArticleNumber.Text = "1";
-                    }
-                }
-                else
-                {
-                    txtArticleNumber.Text = "1";
                 }
 
+                txtArticleNumber.Text = (maxNumber + 1).ToString();
                 _currentProduct = new Product();
             }
             else // Редактирование
@@ -71,6 +70,7 @@ namespace Zadanie3TovarV1
                     txtDiscount.Text = _currentProduct.ProductDiscountAmount?.ToString() ?? "";
                     cmbStatus.Text = _currentProduct.ProductStatus;
                     txtDescription.Text = _currentProduct.ProductDescription;
+
                 }
             }
 
@@ -139,9 +139,18 @@ namespace Zadanie3TovarV1
                 MessageBox.Show(errors.ToString());
                 return;
             }
-
             try
             {
+                if(open.SafeFileName.Length != 0)
+                {
+                    string newNamePhoto = Directory.GetCurrentDirectory() + "\\image\\" + open.SafeFileName;
+                    File.Copy(open.FileName, newNamePhoto, true);
+                    _currentProduct.ProductPhoto = open.SafeFileName;
+                }
+            } catch { }
+            try
+            {
+
                 // Заполнение полей
                 _currentProduct.ProductArticleNumber = txtArticleNumber.Text;
                 _currentProduct.ProductName = txtName.Text;
@@ -155,7 +164,7 @@ namespace Zadanie3TovarV1
                 _currentProduct.ProductDiscountAmount = string.IsNullOrWhiteSpace(txtDiscount.Text) ? null : (byte?)byte.Parse(txtDiscount.Text);
                 _currentProduct.ProductStatus = cmbStatus.Text;
                 _currentProduct.ProductDescription = txtDescription.Text;
-                _currentProduct.ProductPhoto = null; // Фото не реализуем для простоты
+           
 
                 if (Data.CurrentProduct == null) // Добавление
                 {
@@ -191,6 +200,17 @@ namespace Zadanie3TovarV1
         {
             Regex regex = new Regex("[^0-9.,]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void BtnAddPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            open.Filter = "Все файлы |*.*| Файлы *.jpg|*.jpg";
+            open.FilterIndex = 2;
+            if(open.ShowDialog() == true)
+            {
+                BitmapImage photoImage = new BitmapImage(new Uri(open.FileName));
+                imgPhoto.Source = photoImage;
+            }
         }
     }
 }
