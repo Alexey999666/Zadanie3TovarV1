@@ -69,7 +69,7 @@ namespace Zadanie3TovarV1
                     txtCost.Text = _currentProduct.ProductCost.ToString("F2");
                     txtDiscountMax.Text = _currentProduct.ProductDiscountAmountMax.ToString();
                     txtDiscount.Text = _currentProduct.ProductDiscountAmount?.ToString() ?? "";
-                    txtStatus.Text = _currentProduct.ProductStatus;
+                    cmbStatus.Text = _currentProduct.ProductStatus;
                     txtDescription.Text = _currentProduct.ProductDescription;
                 }
             }
@@ -129,7 +129,7 @@ namespace Zadanie3TovarV1
                 if (!byte.TryParse(txtDiscount.Text, out byte discount) || discount < 0 || discount > 100)
                     errors.AppendLine("Текущая скидка от 0 до 100");
             }
-            if (string.IsNullOrWhiteSpace(txtStatus.Text))
+            if (string.IsNullOrWhiteSpace(cmbStatus.Text))
                 errors.AppendLine("Введите статус");
             if (string.IsNullOrWhiteSpace(txtDescription.Text))
                 errors.AppendLine("Введите описание");
@@ -153,7 +153,7 @@ namespace Zadanie3TovarV1
                 _currentProduct.ProductCost = decimal.Parse(txtCost.Text.Replace('.', ','));
                 _currentProduct.ProductDiscountAmountMax = byte.Parse(txtDiscountMax.Text);
                 _currentProduct.ProductDiscountAmount = string.IsNullOrWhiteSpace(txtDiscount.Text) ? null : (byte?)byte.Parse(txtDiscount.Text);
-                _currentProduct.ProductStatus = txtStatus.Text;
+                _currentProduct.ProductStatus = cmbStatus.Text;
                 _currentProduct.ProductDescription = txtDescription.Text;
                 _currentProduct.ProductPhoto = null; // Фото не реализуем для простоты
 

@@ -46,6 +46,7 @@ namespace Zadanie3TovarV1
         {
             LoadData();
             LoadManufacturers();
+
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -118,8 +119,17 @@ namespace Zadanie3TovarV1
                     break;
             }
 
-            listViewProducts.ItemsSource = filtered.ToList();
-            tbCountInfo.Text = $"Показано {filtered.Count()} из {_allProducts.Count}";
+            var filteredList = filtered.ToList();
+            listViewProducts.ItemsSource = filteredList;
+
+            // Общее количество товаров такого же типа (с таким же производителем)
+            int totalSameType = _allProducts.Count;
+            if (!string.IsNullOrWhiteSpace(_currentManufacturer) && _currentManufacturer != "Все производители")
+            {
+                totalSameType = _allProducts.Count(p => p.ProductManufacturer == _currentManufacturer);
+            }
+
+            tbCountInfo.Text = $"Показано {filteredList.Count} из {totalSameType}";
         }
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -149,7 +159,7 @@ namespace Zadanie3TovarV1
 
         private void listViewProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Для двойного клика можно добавить редактирование
+            
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -224,6 +234,22 @@ namespace Zadanie3TovarV1
             Avtorizacia authWindow = new Avtorizacia();
             authWindow.Show();
             this.Close();
+        }
+
+        private void listViewProducts_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (listViewProducts.SelectedItem == null) return;
+
+            // Проверка прав (только администратор)
+            if (Data.CurrentUser != null && Data.CurrentUser.UserRoleNavigation?.RoleName == "Администратор")
+            {
+                Data.CurrentProduct = (Product)listViewProducts.SelectedItem;
+                AddEditProduct editWindow = new AddEditProduct();
+                editWindow.Owner = this;
+                editWindow.ShowDialog();
+                LoadData();
+                LoadManufacturers();
+            }
         }
     }
 }

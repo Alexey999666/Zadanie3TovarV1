@@ -5,6 +5,15 @@
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
         Closed="Window_Closed" Icon="/icon.ico" >
+    <Window.Resources>
+        <Style TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ProductStatus}" Value="нет в наличии">
+                    <Setter Property="Background" Value="Gray"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -42,6 +51,7 @@
 
         
         <ListView x:Name="listViewProducts" Grid.Row="3" Margin="5"
+                  MouseDoubleClick="listViewProducts_MouseDoubleClick"
                   SelectionChanged="listViewProducts_SelectionChanged"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 

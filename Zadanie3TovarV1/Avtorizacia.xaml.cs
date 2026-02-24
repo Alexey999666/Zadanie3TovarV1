@@ -70,7 +70,8 @@ namespace Zadanie3TovarV1
                     if (tbCaptchaInput.Text != _currentCaptcha)
                     {
                         MessageBox.Show("Неверная каптча!");
-
+                        stackPanel.IsEnabled = false;
+                        _timer.Start();
                         return;
                     }
                 }
